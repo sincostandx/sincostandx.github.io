@@ -46,16 +46,22 @@ function updateEnergies(event) {
         target.className = "input error";
         return;
     }
-    const sigDig = getSignificantDigitCount(inputText);
     const inputFactor = conv[inputUnit];
+    const hartreeE = inputE / inputFactor;
+    const sigDig = getSignificantDigitCount(inputText);
 
     // Calculate energies
     for (const box of inputBoxes) {
         const unit = box.name;
         if (unit === inputUnit) continue;
-        const factor = conv[unit];
-        const newE = inputE / inputFactor * factor;
-        box.value = newE.toPrecision(sigDig);
+        if (unit !== "B") {
+            const factor = conv[unit];
+            const newE = hartreeE * factor;
+            box.value = newE.toPrecision(sigDig);
+        } else {
+            const newE = Math.exp(-hartreeE * conv.K / 298.15);
+            box.value = newE.toPrecision(sigDig);
+        }
     }
 }
 
