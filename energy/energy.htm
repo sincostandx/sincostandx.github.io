@@ -8,19 +8,20 @@
 <meta name="description" content="This is a utility of energy conversion for computational chemists.">
 
 
-<script language="JavaScript">
+<script>
 "use strict";
 
 // Define constants
 const conv = {
-    H        : 1.0 , // hartree
-    eV       : 27.21139 , // eV
-    kJ_mol   : 2.6255002E+03 , // kJ/mol
-    kcal_mol : 627.5095 , // kcal/mol
-    cm_1     : 2.1947463E+05 , // cm-1
-    V        : 2.6255002E+06/96484.6 , // V
-    K        : 3.1577709E+05 , // K
-    B        : 1/3.1577709E+05 , // B
+    H        : 1.0 ,
+    eV       : 27.21139 ,
+    kJ_mol   : 2.6255002E+03 ,
+    kcal_mol : 627.5095 ,
+    cm_1     : 2.1947463E+05 ,
+    V        : 2.6255002E+06/96484.6 ,
+    GHz      : 2.1947463E+05*29.9792458 ,
+    K        : 3.1577709E+05 ,
+    B        : 1/3.1577709E+05 ,
 };
 var inputBoxes;
 var inputBox = null;
@@ -50,7 +51,7 @@ function updateEnergies(event) {
     const hartreeE = inputE / inputFactor;
     const sigDig = getSignificantDigitCount(inputText);
 
-    // Calculate energies
+    // Calculate output energies
     for (const box of inputBoxes) {
         const unit = box.name;
         if (unit === inputUnit) continue;
@@ -83,7 +84,6 @@ function getSignificantDigitCount(n) {
 window.onload = function() {
     const parent = document.getElementById("text_parent");
     parent.addEventListener("input", updateEnergies);
-    parent.addEventListener("change", updateEnergies);
     inputBoxes = parent.getElementsByTagName("input")
 }
 
@@ -96,18 +96,18 @@ body {
 }
 input[type=text] {
     box-sizing: border-box;
-    width: 9em;
-    padding: 0.5em;
+    width: 8em;
+    padding: 0.35em;
     margin: 6px 5px 6px 5px;
     border-color: #e3e3e3;
     font-size: medium;
     border-style: solid;
     border-radius: 5px;
+    outline: none;
     transition: .2s;
 }
 input[type=text]:focus {
-    box-shadow: 0 0 6px 1px #d3d3d3;
-    outline: none;
+    box-shadow: 0 1px 6px #d3d3d3;
 }
 input.input[type=text] {
     border-color: #00008b;
@@ -147,7 +147,7 @@ h1 {
 <body>
 <h1>Energy Units Converter</h1>
 <p>Enter your energy value in the box with the appropriate units.<br>
-The results will be rounded to the same significant digits as the input.</p>
+The results are rounded to the same number of significant digits as the input.</p>
 
 <form id="text_parent">
 <div>
@@ -168,6 +168,9 @@ The results will be rounded to the same significant digits as the input.</p>
 </div><div>
 <input type="text" name="V" value="0">
 <label>V for 1e<sup>&minus;</sup> transfer</label>
+</div><div>
+<input type="text" name="GHz" value="0">
+<label>GHz</label>
 </div><div>
 <input type="text" name="K" value="0">
 <label>K (equivalent temerature)</label>
