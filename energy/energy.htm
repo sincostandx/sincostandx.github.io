@@ -7,6 +7,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="This is a utility of energy conversion for computational chemists.">
 
+<style>
+body {
+    font-size: 16px;
+    font-family: sans-serif;
+}
+input[type=text] {
+    box-sizing: border-box;
+    width: 8em;
+    padding: 0.35em;
+    margin: 6px 5px 6px 5px;
+    border-color: #e3e3e3;
+    font-size: medium;
+    border-style: solid;
+    border-radius: 5px;
+    outline: none;
+    transition: .2s;
+}
+input[type=text]:focus {
+    box-shadow: 0 1px 6px #d3d3d3;
+}
+input.input[type=text] {
+    border-color: #00008b;
+}
+input.error[type=text] {
+    background-color: #ffb6c1;
+}
+form {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+form > div {
+    display: table-row;
+}
+label, input {
+    display: table-cell;
+    vertical-align: middle;
+    max-width: 12em;
+}
+label {
+    cursor: pointer;
+}
+p {
+    text-align: center;
+}
+p.credit {
+    color: #a9a9a9;
+}
+p.credit > a {
+    color: #696969;
+}
+h1 {
+    text-align: center;
+    font-size: 26px;
+}
+</style>
+</head>
+
+<body>
+<h1>Energy Units Converter</h1>
+<p>Enter your energy value in the box with the appropriate units.<br>
+The results are rounded to the same number of significant digits as the input.</p>
+
+<form id="text_parent">
+<div>
+<input type="text" name="H" value="0">
+<label>hartree</label>
+</div><div>
+<input type="text" name="eV" value="0">
+<label>eV</label>
+</div><div>
+<input type="text" name="kJ_mol" value="0">
+<label>kJ/mol</label>
+</div><div>
+<input type="text" name="kcal_mol" value="0">
+<label>kcal/mol</label>
+</div><div>
+<input type="text" name="cm_1" value="0">
+<label>cm<sup>&minus;1</sup></label>
+</div><div>
+<input type="text" name="V" value="0">
+<label>V for 1e<sup>&minus;</sup> transfer</label>
+</div><div>
+<input type="text" name="GHz" value="0">
+<label>GHz</label>
+</div><div>
+<input type="text" name="K" value="0">
+<label>K (equivalent temerature)</label>
+</div><div>
+<input type="text" name="B" value="1">
+<label>Boltzman population ratio at 298.15K</label>
+</div>
+</form>
+<p class="credit">This utility is adapted from <a href="http://www.colby.edu/chemistry/PChem/Hartree.html" target="_blank">this page</a> and <a href="https://www.weizmann.ac.il/oc/martin/tools/hartree.html" target="_blank">this page</a>.</p>
 
 <script>
 "use strict";
@@ -23,8 +117,18 @@ const conv = {
     K        : 3.1577709E+05 ,
     B        : 1/3.1577709E+05 ,
 };
-var inputBoxes;
+
+const parent = document.getElementById("text_parent");
+parent.addEventListener("input", updateEnergies);
+const inputBoxes = parent.getElementsByTagName("input")
 var inputBox = null;
+
+function selectInputBox(event) {
+    event.currentTarget.parentElement.firstElementChild.select();
+}
+for (const l of parent.getElementsByTagName("label")) {
+    l.addEventListener("click", selectInputBox, false);
+}
 
 function updateEnergies(event) {
     const target = event.target;
@@ -81,104 +185,6 @@ function getSignificantDigitCount(n) {
     return Math.floor(Math.log10(n)) + 1; //get number of digits
 }
 
-window.onload = function() {
-    const parent = document.getElementById("text_parent");
-    parent.addEventListener("input", updateEnergies);
-    inputBoxes = parent.getElementsByTagName("input")
-}
-
 </script>
-
-<style>
-body {
-    font-size: 16px;
-    font-family: sans-serif;
-}
-input[type=text] {
-    box-sizing: border-box;
-    width: 8em;
-    padding: 0.35em;
-    margin: 6px 5px 6px 5px;
-    border-color: #e3e3e3;
-    font-size: medium;
-    border-style: solid;
-    border-radius: 5px;
-    outline: none;
-    transition: .2s;
-}
-input[type=text]:focus {
-    box-shadow: 0 1px 6px #d3d3d3;
-}
-input.input[type=text] {
-    border-color: #00008b;
-}
-input.error[type=text] {
-    background-color: #ffb6c1;
-}
-form {
-    display: table;
-    margin-left: auto;
-    margin-right: auto;
-}
-form > div {
-    display: table-row;
-}
-label, input {
-    display: table-cell;
-    vertical-align: middle;
-    max-width: 12em;
-}
-p {
-    text-align: center;
-}
-p.credit {
-    color: #a9a9a9;
-}
-p.credit > a {
-    color: #696969;
-}
-h1 {
-    text-align: center;
-    font-size: 26px;
-}
-</style>
-</head>
-
-<body>
-<h1>Energy Units Converter</h1>
-<p>Enter your energy value in the box with the appropriate units.<br>
-The results are rounded to the same number of significant digits as the input.</p>
-
-<form id="text_parent">
-<div>
-<input type="text" name="H" value="0">
-<label>hartree</label>
-</div><div>
-<input type="text" name="eV" value="0">
-<label>eV</label>
-</div><div>
-<input type="text" name="kJ_mol" value="0">
-<label>kJ/mol</label>
-</div><div>
-<input type="text" name="kcal_mol" value="0">
-<label>kcal/mol</label>
-</div><div>
-<input type="text" name="cm_1" value="0">
-<label>cm<sup>&minus;1</sup></label>
-</div><div>
-<input type="text" name="V" value="0">
-<label>V for 1e<sup>&minus;</sup> transfer</label>
-</div><div>
-<input type="text" name="GHz" value="0">
-<label>GHz</label>
-</div><div>
-<input type="text" name="K" value="0">
-<label>K (equivalent temerature)</label>
-</div><div>
-<input type="text" name="B" value="1">
-<label>Boltzman population ratio at 298.15K</label>
-</div>
-</form>
-<p class="credit">This utility is adapted from <a href="http://www.colby.edu/chemistry/PChem/Hartree.html" target="_blank">this page</a> and <a href="https://www.weizmann.ac.il/oc/martin/tools/hartree.html" target="_blank">this page</a>.</p>
 </body>
 </html>
