@@ -22,10 +22,11 @@ input[type=text] {
     border-style: solid;
     border-radius: 5px;
     outline: none;
-    transition: .2s;
+    transition-duration: 0.2s;
+    transition-property: background-color, border-color;
 }
 input[type=text]:focus {
-    box-shadow: 0 1px 6px #d3d3d3;
+    box-shadow: 0 2px 6px #d3d3d3;
 }
 input.input[type=text] {
     border-color: #00008b;
@@ -68,7 +69,8 @@ h1 {
 <body>
 <h1>Energy Units Converter</h1>
 <p>Enter your energy value in the box with the appropriate units.<br>
-The results are rounded to the same number of significant digits as the input.</p>
+Results are rounded to the same number of significant digits as the input.<br>
+Click on the unit name to select the number in the adjacent box.</p>
 
 <form id="text_parent">
 <div>
